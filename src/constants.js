@@ -1,0 +1,8 @@
+const constants = {
+  CREATE_RECIPE: "CREATE_RECIPE",
+  UPDATE_RECIPE: "EDIT_RECIPE",
+  DESTROY_RECIPE: "DESTROY_RECIPE",
+  DESTROY_ALL: "DESTROY_ALL"
+}
+
+export default constants
