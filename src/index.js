@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import RecipeBox from './components/RecipeBox';
+import RecipeBox from './components/containers/RecipeBox';
 import './index.css';
+import { render } from 'react-dom'
 import { createStore } from 'redux';
-import { addRecipe, editRecipe, removeRecipe, removeAll } from './actions'
+import { Provider } from 'react-redux'
 
 import appReducer from './store/reducers'
 import sampleData from'./initialState.json'
@@ -16,8 +16,16 @@ const initialState = (localStorage["redux-store"]) ?
 const saveState = () =>
   localStorage["redux-store"] = JSON.stringify(store.getState())
 
-let store = createStore();
+let store = createStore(appReducer, initialState);
 store.subscribe(saveState)
 
 window.React = React
+console.log("attaching store to window");
 window.store = store
+
+render(
+	<Provider store={store}>
+	   <RecipeBox />
+	</Provider>,
+  document.getElementById('root')
+)

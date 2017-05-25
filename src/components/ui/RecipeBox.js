@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import store from 'store'
-import Recipe from './Recipe'
+import store from 'store';
+import Recipe from './Recipe';
+import NewRecipe from '../containers/NewRecipe';
+import ClearAll from '../containers/ClearAll';
 
 class RecipeBox extends Component {
 
@@ -107,18 +109,10 @@ class RecipeBox extends Component {
     render() {
         return(
             <div className="container">
-              <button
-                className="btn btn-lg btn-primary"
-                onClick={this.create}
-                > New
-              </button>
-              <button
-                className="btn btn-lg btn-danger"
-                onClick={this.clearAll}
-                > Clear All
-              </button>
+              <NewRecipe/>
+              <ClearAll/>
               <div className="panel-group" id="accordion">
-                {store.get("recipes").map(this.eachRecipe)}
+                {this.props.recipes.map(this.eachRecipe)}
               </div>
             </div>
         )
