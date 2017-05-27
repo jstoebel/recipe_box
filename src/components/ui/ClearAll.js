@@ -17,7 +17,6 @@ const ClearAll = ({onRemoveAll = (f) => f}) => {
 
 }
 
-
 ClearAll.propTypes = {
     onClearAll: PropTypes.func
 }

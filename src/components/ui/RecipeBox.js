@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import store from 'store';
-import Recipe from './Recipe';
+import Recipe from '../containers/Recipe';
 import NewRecipe from '../containers/NewRecipe';
 import ClearAll from '../containers/ClearAll';
 
@@ -20,7 +20,7 @@ class RecipeBox extends Component {
       //ask the store for the next id
 
       var largest = store.get("biggestID");
-      if(largest == undefined){
+      if(largest === undefined){
         largest = -1;
       }
 
@@ -45,7 +45,7 @@ class RecipeBox extends Component {
         // }
       var pulledRecipes = store.get("recipes")
 
-      if (pulledRecipes== undefined){
+      if (pulledRecipes === undefined){
         store.set("recipes", [])
         return {recipes: []};
       } else {
@@ -88,8 +88,6 @@ class RecipeBox extends Component {
     }
 
     eachRecipe (recipe, i){
-
-      var recipeId = "#recipe"+i;
 
       return (
           <Recipe

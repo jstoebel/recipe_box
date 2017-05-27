@@ -4,7 +4,6 @@ import './index.css';
 import { render } from 'react-dom'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
-
 import appReducer from './store/reducers'
 import sampleData from'./initialState.json'
 
@@ -13,10 +12,11 @@ const initialState = (localStorage["redux-store"]) ?
     JSON.parse(localStorage["redux-store"]) :
     sampleData
 
+let store = createStore(appReducer, initialState);
+
 const saveState = () =>
   localStorage["redux-store"] = JSON.stringify(store.getState())
 
-let store = createStore(appReducer, initialState);
 store.subscribe(saveState)
 
 window.React = React

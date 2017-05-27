@@ -16,7 +16,6 @@ export const recipes = (state=[], action) => {
       })
 
       return newRecipes;
-      break;
 
     case C.UPDATE_RECIPE:
       // payload is an object with minimally the recipe index to update and any other
@@ -32,7 +31,6 @@ export const recipes = (state=[], action) => {
       // merge changes into recipe
       Object.assign(targetRecipe, action.payload.recipe)
       return newRecipes;
-      break;
 
     case C.DESTROY_RECIPE:
       // expected payload: {idx: integer}
@@ -40,11 +38,9 @@ export const recipes = (state=[], action) => {
       // pull the doomed recipie out and return the changed array.
       newRecipes.splice(action.payload.idx, 1)
       return newRecipes;
-      break;
 
     case C.DESTROY_ALL:
       return []
-      break;
 
     default:
       return state;

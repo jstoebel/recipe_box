@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import DestroyRecipe from '../containers/DestroyRecipe'
 import Remarkable from 'remarkable';
+
 class Recipe extends Component {
   //a recipe has a title and ingrediants
 
@@ -12,6 +14,7 @@ class Recipe extends Component {
     this.destroy = this.destroy.bind(this);
     this.parseIng = this.parseIng.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
+    this.onRemove = this.onRemove.bind(this);
     this.renderRecipie = this.renderRecipie.bind(this);
     this.renderEdit = this.renderEdit.bind(this);
     this.render = this.render.bind(this);
@@ -19,12 +22,6 @@ class Recipe extends Component {
 
   toggle() {
     this.setState({open: !this.state.open});
-  }
-
-  update(newText, i) {
-    //update text of
-
-
   }
 
   componentWillMount() {
@@ -75,6 +72,10 @@ class Recipe extends Component {
 
   }
 
+  onRemove() {
+    this.props.destroyRecipe(this.props.index)
+  }
+
   renderRecipie() {
     //not editing the title
     return (
@@ -91,7 +92,7 @@ class Recipe extends Component {
               onClick={this.editTitle}
             ></span>
             <span className="btn btn-primary btn-xs glyphicon glyphicon-plus" onClick={this.toggle}></span>
-            <span className="btn btn-primary btn-xs glyphicon glyphicon-trash" onClick={this.destroy}></span>
+            <span className="btn btn-primary btn-xs glyphicon glyphicon-trash" onClick={() => {this.props.destroyRecipe(this.props.index)}}></span>
 
         </div>
         <div className={"panel" + (this.state.open ? " show" : "")}>
@@ -103,6 +104,7 @@ class Recipe extends Component {
 
   renderEdit() {
 
+    // no need for a DestroyRecipe component..i think
     return (
 
       <div className="accordion-wrapper">
@@ -116,7 +118,7 @@ class Recipe extends Component {
           />
           <span className="btn btn-primary btn-xs glyphicon glyphicon-floppy-disk" onClick={this.update}></span>
           <span className="btn btn-primary btn-xs glyphicon glyphicon-plus" onClick={this.toggle}></span>
-          <span className="btn btn-primary btn-xs glyphicon glyphicon-trash" onClick={this.destroy}></span>
+          <span className="btn btn-primary btn-xs glyphicon glyphicon-trash" onClick={() => {this.props.destroyRecipe(this.props.index)}}></span>
         </div>
         <div className={"panel" + (this.state.open ? " show" : "")}>
 
@@ -128,7 +130,7 @@ class Recipe extends Component {
   }
 
   render() {
-
+    console.log(this.props.destroyRecipe);
     if(this.state.editing){
       //editing the title
       return this.renderEdit();
@@ -138,6 +140,10 @@ class Recipe extends Component {
 
   }
 
+}
+
+DestroyRecipe.propTypes = {
+    onRemoveRecipe: PropTypes.func
 }
 
 export default Recipe

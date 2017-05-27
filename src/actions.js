@@ -21,7 +21,7 @@ export function editRecipe(idx, recipe) {
 export function removeRecipe(idx) {
   // remove the recipe at idx
 
-  console.log("removing a recipie");
+  console.log("removing at index " + idx);
   return {
     type: C.DESTROY_RECIPE,
     payload: {idx: idx}
