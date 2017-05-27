@@ -2,10 +2,10 @@
 a button to clear out the store when clicked.
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ClearAll = ({onRemoveAll = (f) => f}) => {
-  console.log("clear all recipes");
   return (
     <div
       className="btn btn-lg btn-danger"

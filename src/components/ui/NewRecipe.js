@@ -2,10 +2,10 @@
 a new recipe button
 */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const NewRecipe = ({onAddRecipe = (f) => f}) => {
-  console.log("render for NewRecipe ui");
   return (
     <div
       className="btn btn-lg btn-info"

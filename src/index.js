@@ -20,7 +20,6 @@ const saveState = () =>
 store.subscribe(saveState)
 
 window.React = React
-console.log("attaching store to window");
 window.store = store
 
 render(

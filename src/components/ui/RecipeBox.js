@@ -92,7 +92,7 @@ class RecipeBox extends Component {
       return (
           <Recipe
             index={i}
-            key={recipe.id}
+            key={"recipe"+i}
             data={recipe}
             recipeId={i}
             onChange={this.update}

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Remarkable from 'remarkable';
 
 class Recipe extends Component {
@@ -8,7 +8,7 @@ class Recipe extends Component {
     super()
 
     this.toggle = this.toggle.bind(this);
-    this.editTitle = this.editTitle.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.update = this.update.bind(this);
     this.destroy = this.destroy.bind(this);
     this.parseIng = this.parseIng.bind(this);
@@ -35,52 +35,43 @@ class Recipe extends Component {
 
   }
 
-  editTitle(e) {
+  componentDidUpdate(prevProp, prevState) {
+
+    if(this.refs.ingsDisplay) {
+      this.refs.ingsDisplay.innerHTML = this.parseIng()
+    }
+  }
+
+  parseIng() {
+    var md = new Remarkable();
+    return md.render(this.props.data.ingredients.toString());
+  }
+
+  handleEdit(e) {
 
     this.setState({editing: true, open: true})
     e.stopPropagation();
   }
 
-  handleChange(event) {
-    // handle changing state of fields
-
-    const target = event.target;
-    const value = target.value;
-    const name = target.name
-    this.setState({[name]: value})
-  }
-
   update(e, recipieId) {
-    console.log("running update");
-    console.log(this.state);
     const newRecipe = {
       title: this.state.title,
       ingredients: this.state.ingredients
     }
     this.props.updateRecipe(this.props.index, newRecipe)
+    this.setState({editing: false})
   }
 
   destroy() {
     this.props.onRemove(this.props.index);
   }
 
-  parseIng() {
-    console.log("parse ing");
-    console.log(this.props);
-    var md = new Remarkable();
-    var markup = md.render(this.props.data.ingredients.toString());
-    return { __html: markup};
-
-  }
-
   handleChange(event) {
     // handle changing state of fields
     const target = event.target;
-    console.log(target.name);
     const value = target.value;
     const name = target.name
     this.setState({[name]: value})
-
   }
 
   onRemove() {
@@ -100,14 +91,14 @@ class Recipe extends Component {
               {this.props.data.title}
             </span>
             <span className="btn btn-primary btn-xs glyphicon glyphicon-pencil"
-              onClick={this.editTitle}
+              onClick={this.handleEdit}
             ></span>
             <span className="btn btn-primary btn-xs glyphicon glyphicon-plus" onClick={this.toggle}></span>
             <span className="btn btn-primary btn-xs glyphicon glyphicon-trash" onClick={() => {this.props.destroyRecipe(this.props.index)}}></span>
 
         </div>
         <div className={"panel" + (this.state.open ? " show" : "")}>
-           <span dangerouslySetInnerHTML={this.parseIng()} />
+          <span contentEditable="true" ref="ingsDisplay" />
         </div>
       </div>
     )
@@ -135,9 +126,9 @@ class Recipe extends Component {
         <div className={"panel" + (this.state.open ? " show" : "")}>
 
           <textarea
-            ref={"ings"+this.props.data.index}
-            id={"ings" + this.props.data.index}
-            name="ings"
+            ref={"ings"+this.props.index}
+            id={"ings" + this.props.index}
+            name="ingredients"
             type="text"
             className="ing-input"
             defaultValue={this.props.data.ingredients}
@@ -150,7 +141,6 @@ class Recipe extends Component {
   }
 
   render() {
-    console.log(this.state);
     if(this.state.editing){
       //editing the title
       return this.renderEdit();
