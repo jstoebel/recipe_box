@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import DestroyRecipe from '../containers/DestroyRecipe'
 import Remarkable from 'remarkable';
 
 class Recipe extends Component {
@@ -16,6 +15,7 @@ class Recipe extends Component {
     this.componentWillMount = this.componentWillMount.bind(this);
     this.onRemove = this.onRemove.bind(this);
     this.renderRecipie = this.renderRecipie.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.renderEdit = this.renderEdit.bind(this);
     this.render = this.render.bind(this);
   }
@@ -28,8 +28,9 @@ class Recipe extends Component {
 
     this.setState({
       open: false,
-      editing: false
-
+      editing: false,
+      title: this.props.data.title,
+      ingredients: this.props.data.ingredients
     })
 
   }
@@ -50,15 +51,13 @@ class Recipe extends Component {
   }
 
   update(e, recipieId) {
-
-    var textRef = "newTitle"+this.props.data.id
-    var ingRef = "newIngs" + this.props.data.id
-    this.props.onChange(
-      this.refs[textRef].getDOMNode().value,
-      this.refs[ingRef].getDOMNode().value,
-      this.props.index);
-    this.setState({editing: false});
-
+    console.log("running update");
+    console.log(this.state);
+    const newRecipe = {
+      title: this.state.title,
+      ingredients: this.state.ingredients
+    }
+    this.props.updateRecipe(this.props.index, newRecipe)
   }
 
   destroy() {
@@ -66,9 +65,21 @@ class Recipe extends Component {
   }
 
   parseIng() {
+    console.log("parse ing");
+    console.log(this.props);
     var md = new Remarkable();
     var markup = md.render(this.props.data.ingredients.toString());
     return { __html: markup};
+
+  }
+
+  handleChange(event) {
+    // handle changing state of fields
+    const target = event.target;
+    console.log(target.name);
+    const value = target.value;
+    const name = target.name
+    this.setState({[name]: value})
 
   }
 
@@ -103,18 +114,19 @@ class Recipe extends Component {
   }
 
   renderEdit() {
-
-    // no need for a DestroyRecipe component..i think
     return (
 
       <div className="accordion-wrapper">
         <div
           className="accordion">
           <textarea
-            ref={"newTitle"+this.props.data.id}
-            id={"title" + this.props.data.id} type="text"
+            ref={"newTitle"+this.props.index}
+            id={"title" + this.props.index}
+            name="title"
+            type="text"
             className="title-input"
             defaultValue={this.props.data.title}
+            onChange={this.handleChange}
           />
           <span className="btn btn-primary btn-xs glyphicon glyphicon-floppy-disk" onClick={this.update}></span>
           <span className="btn btn-primary btn-xs glyphicon glyphicon-plus" onClick={this.toggle}></span>
@@ -122,7 +134,15 @@ class Recipe extends Component {
         </div>
         <div className={"panel" + (this.state.open ? " show" : "")}>
 
-          <textarea ref={"newIngs"+this.props.data.id} id={"ings" + this.props.data.id} type="text" className="ing-input" defaultValue={this.props.data.ingredients} />
+          <textarea
+            ref={"ings"+this.props.data.index}
+            id={"ings" + this.props.data.index}
+            name="ings"
+            type="text"
+            className="ing-input"
+            defaultValue={this.props.data.ingredients}
+            onChange={this.handleChange}
+          />
         </div>
       </div>
     )
@@ -130,7 +150,7 @@ class Recipe extends Component {
   }
 
   render() {
-    console.log(this.props.destroyRecipe);
+    console.log(this.state);
     if(this.state.editing){
       //editing the title
       return this.renderEdit();
@@ -140,10 +160,6 @@ class Recipe extends Component {
 
   }
 
-}
-
-DestroyRecipe.propTypes = {
-    onRemoveRecipe: PropTypes.func
 }
 
 export default Recipe

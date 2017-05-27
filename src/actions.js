@@ -12,7 +12,8 @@ export function addRecipe() {
 export function editRecipe(idx, recipe) {
   // merge recpie attributes into an existing recipe at index
 
-  console.log("running addRecipe");
+  console.log("running editRecipe");
+  console.log(recipe);
   return {
     type: C.UPDATE_RECIPE,
     payload: {idx: idx, recipe: recipe}

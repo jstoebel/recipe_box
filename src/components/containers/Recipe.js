@@ -1,9 +1,10 @@
 import RecipeUi from '../ui/Recipe';
 import { connect } from 'react-redux'
-import { removeRecipe } from '../../actions'
+import { removeRecipe, editRecipe } from '../../actions'
 
 const mapDispatchToProps = {
-  destroyRecipe: removeRecipe
+  destroyRecipe: removeRecipe,
+  updateRecipe: editRecipe
 }
 
 export default connect(null, mapDispatchToProps)(RecipeUi)
