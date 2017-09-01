@@ -1,4 +1,5 @@
 # Recipie App
+## by Jacob Stoebel
 A simple app for storing recipes using React/Redux.
 Built for the freeCodeCamp.com curriculum. Meets the following user stories:
 
